@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="profileNdx" title="Profile indexer by kiror" version_string="1.0" version_id="10" url="https://github.com/adlerosn/" install_callback_class="ProfileNdx_setup" install_callback_method="install" uninstall_callback_class="ProfileNdx_setup" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="ProfileNdx_indexer_controller" callback_method="load_class" active="1" hint="XenForo_ControllerPublic_Account" description="Listens for XenForo_ControllerPublic_Account class (Profile indexer by kiror)"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="ProfileNdx_search_controller" callback_method="callback" active="1" hint="XenForo_ControllerPublic_Search" description="Search module code execution hooks (Profile indexer by kiror)"/>
+  </code_event_listeners>
+  <cron>
+    <entry entry_id="statistics_auto_update" cron_class="ProfileNdx_indexer_shared" cron_method="updateDbTableUserIndex" active="1"><![CDATA[{"day_type":"dom","dom":["-1"],"hours":["7"],"minutes":["25"]}]]></entry>
+  </cron>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="kiror_statistics_levers" display_order="1" debug_only="0"/>
+    <option option_id="inviteToJoin" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kiror_statistics_levers" display_order="1"/>
+    </option>
+    <option option_id="searchable" edit_format="textbox" data_type="string" can_backup="1" validation_class="ProfileNdx_indexer_shared" validation_method="validateString">
+      <default_value>username,gender,occupation,location,homepage,signature,about</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kiror_statistics_levers" display_order="3"/>
+    </option>
+    <option option_id="searchblocktime" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>20</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kiror_statistics_levers" display_order="5"/>
+    </option>
+    <option option_id="searchlifetime" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>600</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kiror_statistics_levers" display_order="4"/>
+    </option>
+    <option option_id="toshow" edit_format="textbox" data_type="string" can_backup="1" validation_class="ProfileNdx_indexer_shared" validation_method="validateString">
+      <default_value>gender,occupation</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="kiror_statistics_levers" display_order="2"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="cron_entry_statistics_auto_update" version_id="6" version_string="0.6"><![CDATA[Statistics auto-update]]></phrase>
+    <phrase title="option_group_kiror_statistics_levers" version_id="2" version_string="0.2"><![CDATA[Statistics page options]]></phrase>
+    <phrase title="option_group_kiror_statistics_levers_description" version_id="2" version_string="0.2"><![CDATA[Levers for controlling statistics page behaviour.]]></phrase>
+    <phrase title="option_inviteToJoin" version_id="3" version_string="0.3"><![CDATA[Invite to sign up]]></phrase>
+    <phrase title="option_inviteToJoin_explain" version_id="3" version_string="0.3"><![CDATA[<b>Unchecked</b>: The one who is not logged in while seeing the statistics page will see only a simple message saying that he/she/it is not allowed to see site's statistics.<br /> 
+<b>Checked</b>: The one who is not logged in while seeing the statistics page will be invited to join by a big button.]]></phrase>
+    <phrase title="option_searchable" version_id="4" version_string="0.4"><![CDATA[Searchable fields]]></phrase>
+    <phrase title="option_searchable_explain" version_id="4" version_string="0.4"><![CDATA[The ID of those fields that are to be searchable, separated by commas.<br />Leave it in <i>blank</i> and it <b>won't work</b>.]]></phrase>
+    <phrase title="option_searchblocktime" version_id="6" version_string="0.6"><![CDATA[Search block time]]></phrase>
+    <phrase title="option_searchblocktime_explain" version_id="6" version_string="0.6"><![CDATA[The time that the user will have to wait between 2 searches, in seconds.<br />
+0 = The user is free to flood your server.<br />
+30 = half minute<br />
+60 = 1 minute<br />
+120 = 2 minutes<br />
+180 = 3 minutes<br />
+240 = 4 minutes<br />
+300 = 5 minutes]]></phrase>
+    <phrase title="option_searchlifetime" version_id="6" version_string="0.6"><![CDATA[Search results lifetime in cache]]></phrase>
+    <phrase title="option_searchlifetime_explain" version_id="5" version_string="0.5"><![CDATA[The lifetime of a search, in seconds.<br />
+300 = 5 minutes<br />
+600 = 10 minutes<br />
+900 = 15 minutes<br />
+1800 = 30 minutes<br />
+3600 = 1 hour<br />
+7200 = 2 hours]]></phrase>
+    <phrase title="option_toshow" version_id="2" version_string="0.2"><![CDATA[Things to show]]></phrase>
+    <phrase title="option_toshow_explain" version_id="2" version_string="0.2"><![CDATA[The ID of those options that are to be shown, separated by commas.<br />Leave it in <i>blank</i> to show everything.]]></phrase>
+    <phrase title="search_profile_contents" global_cache="1" version_id="4" version_string="0.4"><![CDATA[Search Profile Contents]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="public">
+      <prefix original_prefix="statistics" class="ProfileNdx_statistics_route" build_link="all"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="kiror_search_fill" version_id="4" version_string="0.4"><![CDATA[<xen:title>{xen:phrase search_profile_contents}</xen:title>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:search}">{xen:phrase search}</xen:breadcrumb>
+</xen:navigation>
+
+<form action="{xen:link 'search/profileresults/'}" method="post" class="xenForm AutoValidator"
+	data-optInOut="optIn"
+	data-redirect="true"
+	data-redirect="on">
+	<xen:include template="search_form_tabs" />
+
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_keywords">{xen:phrase keywords}:</label></dt>
+		<dd>
+			<ul>
+				<li><input type="search" name="keywords" value="{$search.keywords}" results="0" class="textCtrl" id="ctrl_keywords" autofocus="true" /></li>
+			</ul>
+		</dd>
+	</dl>
+	
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd><input type="submit" value="{xen:phrase search}" accesskey="s" class="button primary" /></dd>
+	</dl>
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+</form>]]></template>
+    <template title="kiror_search_results" version_id="4" version_string="0.4"><![CDATA[<xen:if is="{$search.search_query}">
+	<xen:title>{xen:phrase search_results_for_query}: {$search.search_query}</xen:title>
+	<xen:h1>{xen:phrase search_results_for_query}: <a href="{xen:link 'search/profileresultsdisplay/', $search}"><em>{$search.search_query}</em></a></xen:h1>
+<xen:else />
+	<xen:title>{xen:phrase search_results}</xen:title>
+</xen:if>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:search}">{xen:phrase search}</xen:breadcrumb>
+</xen:navigation>
+
+<xen:container var="$head.robots">
+	<meta name="robots" content="noindex" /></xen:container>
+
+<xen:require css="search_results.css" />
+
+<xen:if is="{$search.searchWarnings}">
+	<ol class="searchWarnings">
+	<xen:foreach loop="$search.searchWarnings" value="$warning">
+		<li>{xen:escape $warning, false}</li>
+	</xen:foreach>
+	</ol>
+</xen:if>
+
+<xen:if is="{$search.users}">
+	<xen:sidebar>
+		<div class="section userResults avatarList">
+			<div class="secondaryContent">
+				<h3>{xen:phrase matched_users}</h3>
+				<ul>
+					<xen:foreach loop="$search.users" value="$user">
+							<li class="userResult">
+								<xen:avatar user="$user" size="s" img="true" />
+								<xen:username user="$user" rich="true" />
+								<div class="userTitle">{xen:helper userTitle, $user}</div>
+							</li>
+					</xen:foreach>
+				</ul>
+			</div>
+		</div>
+	</xen:sidebar>
+</xen:if>
+
+<div class="pageNavLinkGroup">
+	<div class="linkGroup SelectionCountContainer">
+		<a href="{xen:link 'search/profileresultsdisplay/', $search}">{xen:phrase search_again}</a>
+
+		<xen:if is="{$supportedInlineModTypes}">
+			<div class="Popup">
+				<a rel="Menu">{xen:phrase moderator_tools}</a>
+				<div class="Menu">
+					<div class="primaryContent menuHeader">
+						<h3>{xen:phrase enable_moderation}</h3>
+					</div>
+					<ul class="secondaryContent blockLinksList">
+					<xen:foreach loop="$supportedInlineModTypes" key="$inlineModType" value="$inlineMod">
+						<li><a href="{xen:link search, $search, 'mod={$inlineModType}', 'page={xen:if '{$page} > 1', $page}'}" class="{xen:if '{$modType} == {$inlineModType}', selected}">{$inlineMod.name}</a></li>
+					</xen:foreach>
+					<xen:if is="{$modType}">
+						<li><a href="{xen:link search, $search, 'page={xen:if '{$page} > 1', $page}'}">{xen:phrase disable}</a></li>
+					</xen:if>
+					</ul>
+				</div>
+			</div>
+		</xen:if>
+	</div>
+
+	<xen:pagenav link="search" linkdata="{$search}" linkparams="{xen:array 'mod={$modType}'}" page="{$page}" perpage="{$perPage}" total="{$totalResults}" />
+</div>
+
+<div class="section sectionMain searchResults">
+	<form action="{xen:if $activeInlineMod, {xen:link $activeInlineMod.route}}" method="post"
+		class="InlineModForm"
+		data-cookieName="{$activeInlineMod.cookie}"
+		data-controls="#InlineModControls"
+		data-imodOptions="#ModerationSelect option"
+	>
+
+		<ol class="searchResultsList">
+			{xen:raw $results}
+		</ol>
+		
+		<xen:if is="{$userSearchMaxDate}">
+			<div class="secondaryContent olderMessages">
+				<a href="{xen:link search/member, '', 'user_id={$search.searchConstraints.user_id}', 'content={$search.searchConstraints.content}', 'before={$userSearchMaxDate}'}">{xen:phrase find_older_messages}</a>
+			</div>
+		</xen:if>
+		
+		<div class="sectionFooter searchResultSummary">
+			<span class="resultCount">{xen:phrase showing_results_x_to_y_of_z, 'start={xen:number $resultStartOffset}', 'end={xen:number $resultEndOffset}', 'total={xen:number $totalResults}'}</span>
+			<xen:if is="{$nextPage}"><a href="{xen:link search, $search, 'page={$nextPage}'}" class="nextLink">{xen:phrase next} &gt;</a></xen:if>
+			
+			{xen:raw $inlineModControlsHtml}
+		</div>
+
+	</form>
+</div>
+
+<div class="pageNavLinkGroup">
+	<div class="linkGroup">
+		<xen:if is="{$ignoredNames}">
+			<a href="javascript:" class="muted JsOnly DisplayIgnoredContent Tooltip" title="{xen:phrase show_hidden_content_by_x, "names={xen:helper implode, $ignoredNames, ', '}"}">{xen:phrase show_ignored_content}</a>
+		</xen:if>
+		<a href="{xen:link 'search/profileresultsdisplay/', $search}">{xen:phrase search_again}</a>
+	</div>
+
+	<xen:pagenav link="search" linkdata="{$search}" linkparams="{xen:array 'mod={$modType}'}" page="{$page}" perpage="{$perPage}" total="{$totalResults}" />
+</div>]]></template>
+    <template title="kiror_statistics_index" version_id="3" version_string="0.3"><![CDATA[<xen:title>Statistics</xen:title>
+
+Here you can find some extra statistics that aren't displayed for everyone.
+
+<div class="section">
+	<h2 class="subHeading">Statistics list</h2>
+	<div></div>
+	<xen:if is="{$visitor.user_id}">
+		<xen:if is="{$stats}">
+			<div class="secondaryContent">
+				{xen:raw $stats}
+			</div>
+		<xen:else />
+			<div class="secondaryContent">
+				No statistics to display.
+			</div>
+		</xen:if>
+	<xen:else />
+		<div class="secondaryContent">
+			<center>No extra statistics to display for unregistered users.</center>
+			<xen:if is="{$join}==true">
+				<br />
+				<div class="section loginButton" style="max-width:350px">		
+					<div class="secondaryContent">
+						<label for="LoginControl" id="SignupButton"><a href="{xen:link login}" class="inner">{xen:if $xenOptions.registrationSetup.enabled, {xen:phrase sign_up_now}, {xen:phrase log_in}}</a></label>
+					</div>
+				</div>
+			</xen:if>
+		</div>
+	</xen:if>
+	
+	<div class="sectionFooter">Last updated: {xen:datetime $date, absolute}</div>
+</div>
+
+]]></template>
+    <template title="kiror_waitscreen" version_id="6" version_string="0.6"><![CDATA[<xen:title>Cooldown</xen:title>
+
+You exceeded the usage limit of the resource you were trying to access; now you'll have to wait.
+
+<div class="section">
+	<div class="secondaryContent" style="font-size: 150%;" id="counter">
+		Going to the requested page in {xen:raw $cooldown} seconds...
+	</div>
+	<a href="{xen:raw $redirect}">I can't wait this countdown... Try loading it again!</a>
+<script>
+var count =  {xen:raw $cooldown}+1;	
+var redir = "{xen:raw $redirect}";
+ 
+function countDown(){
+    var timer = document.getElementById("counter");
+    if(count >= 0)
+		{
+        count--;
+        timer.innerHTML = "Going to the requested page in "+count+" seconds...";
+        if(count==1) {timer.innerHTML = "Going to the requested page in "+count+" second...";};
+		if(count<=0) {timer.innerHTML = "Redirecting you...";setTimeout("countDown()", 1000);};
+        setTimeout("countDown()", 1000);
+		}
+    else
+		{
+        window.location.href = redir;
+		}
+};
+countDown();</script>
+</div>
+
+]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="forum_list" modification_key="addlink" description="Adds a link for statistics page in &quot;Forum Statistics&quot; sidebar box." execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[{xen:phrase forum_statistics}]]></find>
+      <replace><![CDATA[<a href="{xen:link statistics}">{xen:phrase forum_statistics}</a>]]></replace>
+    </modification>
+    <modification template="search_form_tabs" modification_key="addsearchhook" description="Adds the required hook to add the option to search profile contents" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[</xen:hook>]]></find>
+      <replace><![CDATA[<xen:if is="{$visitor.user_id}">
+		<li{xen:if "{$searchType} == 'profile_content'", ' class="active"'}><a href="{xen:link 'search/profilesearch/'}">{xen:phrase search_profile_contents}</a></li>
+	</xen:if>
+	</xen:hook>]]></replace>
+    </modification>
+    <modification template="quick_navigation_menu" modification_key="addsearchhookQM" description="Add search hook on quick menu" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<li><a href="{xen:link members}">{xen:phrase notable_members}</a></li>]]></find>
+      <replace><![CDATA[<li><a href="{xen:link members}">{xen:phrase notable_members}</a></li>
+<xen:if is="{$visitor.user_id}">
+<li><a href="{xen:link 'search/profilesearch/'}">{xen:phrase search_profile_contents}</a></li>
+</xen:if>]]></replace>
+    </modification>
+    <modification template="navigation" modification_key="addsearchhooknav" description="Add search hook navigation" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<li><a href="{xen:link find-new/profile-posts}">{xen:phrase new_profile_posts}</a></li>]]></find>
+      <replace><![CDATA[<li><a href="{xen:link find-new/profile-posts}">{xen:phrase new_profile_posts}</a></li>
+<xen:if is="{$visitor.user_id}">
+<li><a href="{xen:link 'search/profilesearch/'}">{xen:phrase search_profile_contents}</a></li>
+</xen:if>]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
