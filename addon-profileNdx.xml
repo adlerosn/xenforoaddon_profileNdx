@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="profileNdx" title="Profile indexer by kiror" version_string="1.0" version_id="10" url="https://github.com/adlerosn/" install_callback_class="ProfileNdx_setup" install_callback_method="install" uninstall_callback_class="ProfileNdx_setup" uninstall_callback_method="uninstall">
+<addon addon_id="profileNdx" title="[kiror] Profile indexer" version_string="1.1" version_id="11" url="https://github.com/adlerosn/" install_callback_class="ProfileNdx_setup" install_callback_method="install" uninstall_callback_class="ProfileNdx_setup" uninstall_callback_method="uninstall">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -16,7 +16,7 @@
   <email_templates/>
   <email_template_modifications/>
   <optiongroups>
-    <group group_id="kiror_statistics_levers" display_order="1" debug_only="0"/>
+    <group group_id="kiror_statistics_levers" display_order="7" debug_only="0"/>
     <option option_id="inviteToJoin" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
@@ -55,7 +55,7 @@
   </permissions>
   <phrases>
     <phrase title="cron_entry_statistics_auto_update" version_id="6" version_string="0.6"><![CDATA[Statistics auto-update]]></phrase>
-    <phrase title="option_group_kiror_statistics_levers" version_id="2" version_string="0.2"><![CDATA[Statistics page options]]></phrase>
+    <phrase title="option_group_kiror_statistics_levers" version_id="11" version_string="1.1"><![CDATA[[kiror] Statistics page options]]></phrase>
     <phrase title="option_group_kiror_statistics_levers_description" version_id="2" version_string="0.2"><![CDATA[Levers for controlling statistics page behaviour.]]></phrase>
     <phrase title="option_inviteToJoin" version_id="3" version_string="0.3"><![CDATA[Invite to sign up]]></phrase>
     <phrase title="option_inviteToJoin_explain" version_id="3" version_string="0.3"><![CDATA[<b>Unchecked</b>: The one who is not logged in while seeing the statistics page will see only a simple message saying that he/she/it is not allowed to see site's statistics.<br /> 
