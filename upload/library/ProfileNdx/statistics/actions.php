@@ -103,7 +103,7 @@ class ProfileNdx_statistics_actions extends XenForo_ControllerPublic_Abstract
 						}
 						unset($i);
 					}
-					else if(array_key_exists($infoid,$choices)){
+					else if(array_key_exists($infoid,$choices) && array_key_exists($infocont,$choices[$infoid])){
 						$user[$infoid]=$choices[$infoid][$infocont];
 					}
 					else{
